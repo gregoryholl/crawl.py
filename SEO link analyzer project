@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+from lxml import html
+import requests
+from urllib.parse import urlparse
+
+# get_urls_from_string scans through a string,
+# finds all the links, and returns the urls in a list
+def normalize_url(url):
+    parsed_url = urlparse(url)
+    netloc_path = "{}{}".format(parsed_url.netloc, parsed.url.path)
+    lowercased = netloc_path.lower()
+    if len(lowercased) < 1:
+        return lowercased
+    last_slash_removed = lowercased if lowercased[-1] != "/" else lowercased[:1]
+    return last_slash_removed
