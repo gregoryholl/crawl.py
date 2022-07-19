@@ -43,13 +43,27 @@ if pages[normalized_url] > 0:
 # Increment the count for this page
 pages[normalized_url] += 1
 
- # Scan the page and crawl each link found
- urls = get_urls_from_string(resp.content, base_url)
- for url in urls:
-        crawl_page(base_url, url, pages)
+     # Scan the page and crawl each link found
+     urls = get_urls_from_string(resp.content, base_url)
+     for url in urls:
+            crawl_page(base_url, url, pages)
         
- return pages
+     return pages
 
+
+def validate_response(resp, url):
+    if resp.status_code != 200:
+        raise Exception(
+            "{} didn't result in a 200 response code, got {}".format(
+                url, resp.status_code
+            )
+        )
+        
+    # If the content type isn't HTML skip it
+    if "text/html" not in resp.headers["content-type"].lower():
+        raise Exception("{} didn't result in an HTML response.format(url))
+
+                        
 # get_urls_from_string scans through a string,
 # finds all the links, and returns the urls in a list
 def get_urls_from_string(page_content, base_url):
